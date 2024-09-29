@@ -1,0 +1,1028 @@
+2024-09-29T16:47:11.294Z [info] 
+==========LLM call for step "extractAppSkeleton":==========
+You help the user building a Fiori Elements application described in the user input.
+
+The application typically starts with a ListReport page showing the data of the base entity of the application in a table.
+Details of a specific table row are shown in the ObjectPage. This first ObjectPage is therefore based on the base entity of the application.
+An ObjectPage can contain one or more table sections based on to-many associations of its entity type.
+The details of a table section row can be shown in an another ObjectPage based on the associations target entity.
+
+Your task is to find the entities (with their associations) as well as the ObjectPages (with the associations they use in table sections) described in the user input below.
+
+You must format your output as a JSON value that adheres to a given "JSON Schema" instance.
+
+"JSON Schema" is a declarative language that allows you to annotate and validate JSON documents.
+
+For example, the example "JSON Schema" instance {{"properties": {{"foo": {{"description": "a list of test words", "type": "array", "items": {{"type": "string"}}}}}}, "required": ["foo"]}}
+would match an object with one required property, "foo". The "type" property specifies "foo" must be an "array", and the "description" property semantically describes it as "a list of test words". The items within "foo" must be strings.
+Thus, the object {{"foo": ["bar", "baz"]}} is a well-formatted instance of this example "JSON Schema". The object {{"properties": {{"foo": ["bar", "baz"]}}}} is not well-formatted.
+
+Your output will be parsed and type-checked according to the provided schema instance, so make sure all fields in your output match the schema exactly and there are no trailing commas!
+
+Here is the JSON Schema instance your output must adhere to. Include the enclosing markdown codeblock:
+```json
+{
+  "type": "object",
+  "properties": {
+    "entities": {
+      "type": "array",
+      "description": "Define all entities and their associations; entity properties will be determined later",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "UpperCamelCase, no spaces, plural, e.g. 'Orders'"
+          },
+          "label": {
+            "type": "string",
+            "description": "max two words, singular"
+          },
+          "associations": {
+            "type": "array",
+            "description": "Define all associations between entities",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "target": {
+                  "type": "string",
+                  "description": "Points to existing entity, value is entities.name"
+                },
+                "isComposition": {
+                  "type": "boolean",
+                  "description": "true: target is contained in entity - it cannot exist without this entity. A target can only be contained in max. one entity. 'multiplicity' must be 'many'"
+                },
+                "multiplicity": {
+                  "type": "string",
+                  "enum": [
+                    "one",
+                    "many"
+                  ]
+                }
+              },
+              "required": [
+                "name",
+                "target",
+                "multiplicity"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "labelPlural": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "label",
+          "associations",
+          "labelPlural"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "baseEntity": {
+      "type": "string",
+      "description": "base entity of ListReport page (if present) and first ObjectPage"
+    },
+    "noListReportPage": {
+      "type": "boolean",
+      "description": "true: no ListReport page will generated, e.g. for applications which start with an (input enabled) Object Page to enter data"
+    },
+    "objectPages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "entityType": {
+            "type": "string",
+            "description": "Entity that the ObjectPage is based on, the first ObjectPage is always based on base entity"
+          },
+          "tableSectionsAssociations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "to-many associations of page entity for table sections shown in the ObjectPage"
+          }
+        },
+        "required": [
+          "entityType"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "namespace": {
+      "type": "string",
+      "description": "lowerCamelCase, no spaces allowed"
+    },
+    "applicationName": {
+      "type": "string",
+      "description": "lowerCamelCase, no spaces allowed"
+    }
+  },
+  "required": [
+    "entities",
+    "baseEntity",
+    "objectPages",
+    "namespace",
+    "applicationName"
+  ],
+  "additionalProperties": false
+}
+```
+
+Output ONLY the json contents and try to be as accurate as comprehensive as possible.
+
+<UserInput>
+Create a SAP Fiori application based on the requirements outlined in the following user story: User Story Description
+As a retail grocery store manager, I want to create and manage sale events that are called flash sales. The application should include the following entities.
+The Flash Sale entity generally has the following attributes:
+1.	Start date and time
+2.	Duration Hours (a decimal number)
+3.	Title
+4.	Description
+5.	Status which can include “New”, “Pending Approval”, “Ready”, “Running”, “Completed”, “Rejected”, and “Canceled”
+6.	A one-to-many composition of Sale Product
+The Sale Product entity maintains a list of grocery products that are part of the sale. The Sale Product entity generally has the following attributes:
+1.	Sale price
+2.	Product ID
+The Product entity maintains the master list of grocery products. The Product entity generally contains the following attributes:
+1.	Product ID
+2.	Product Name
+3.	Regular price
+4.	Shelf Location (a string specifying the physical location of the shelf space)
+5.	ESL Device (a string specifying the hardware address of the shelf label)
+Acceptance Criteria
+Scenario 1: List All Flash Sales
+Given I am logged into the Flash Sale management system, when I launch the SAP Fiori application to maintain flash shales, I should be able to view the list of all the Flash Sale entities in a list without pressing the GO button. The list should be grouped into sections based on the status. The list of all the flash sales should have: start date and time, duration, title, status, default discount, and number of Sale Products. The list of filters should include status and start date.
+Scenario 2:
+Given I am logged into the Flash Sale management system, when I select a specific flash sale from the list of the SAP Fiori application, then I should be able to view the flash sale details.
+</UserInput>
+
+----------Response:----------
+{
+  "entities": [
+    {
+      "name": "FlashSales",
+      "label": "Flash Sale",
+      "associations": [
+        {
+          "name": "saleProducts",
+          "target": "SaleProducts",
+          "isComposition": true,
+          "multiplicity": "many"
+        }
+      ],
+      "labelPlural": "Flash Sales"
+    },
+    {
+      "name": "SaleProducts",
+      "label": "Sale Product",
+      "associations": [
+        {
+          "name": "product",
+          "target": "Products",
+          "isComposition": false,
+          "multiplicity": "one"
+        }
+      ],
+      "labelPlural": "Sale Products"
+    },
+    {
+      "name": "Products",
+      "label": "Product",
+      "labelPlural": "Products"
+    }
+  ],
+  "baseEntity": "FlashSales",
+  "noListReportPage": false,
+  "objectPages": [
+    {
+      "entityType": "FlashSales",
+      "tableSectionsAssociations": [
+        "saleProducts"
+      ]
+    }
+  ],
+  "namespace": "flashsales",
+  "applicationName": "FlashSaleManagement"
+}
+2024-09-29T16:47:11.297Z [info] Step "switchBasedOnAppSkeleton": case 0 blocked! Evaluation details:
+ - JSONPath "$.model.applications[0].pages[0]" : [{"type":"ListReport","entityType":"FlashSales"}]
+2024-09-29T16:47:11.297Z [info] Step "switchBasedOnAppSkeleton": case 1 blocked! Evaluation details:
+ - JSONPath "$.model.applications[0].pages[0].type" : ["ListReport"]
+2024-09-29T16:47:11.297Z [info] Step "switchBasedOnAppSkeleton": no condition met - running default steps
+2024-09-29T16:47:18.801Z [info] 
+==========LLM call for step "extractEntitiesProperties":==========
+You help the user refining the DataModel for a Fiori Elements application described in the user input.
+
+The DataModel consists of the following entities and associations:
+- entity "FlashSales" (with to-many associations to "SaleProducts")
+- entity "SaleProducts" (with to-one association to "Products" and "FlashSales")
+- entity "Products"
+
+Your task is to find the properties for each entity.
+You must format your output as a JSON value that adheres to a given "JSON Schema" instance.
+
+"JSON Schema" is a declarative language that allows you to annotate and validate JSON documents.
+
+For example, the example "JSON Schema" instance {{"properties": {{"foo": {{"description": "a list of test words", "type": "array", "items": {{"type": "string"}}}}}}, "required": ["foo"]}}
+would match an object with one required property, "foo". The "type" property specifies "foo" must be an "array", and the "description" property semantically describes it as "a list of test words". The items within "foo" must be strings.
+Thus, the object {{"foo": ["bar", "baz"]}} is a well-formatted instance of this example "JSON Schema". The object {{"properties": {{"foo": ["bar", "baz"]}}}} is not well-formatted.
+
+Your output will be parsed and type-checked according to the provided schema instance, so make sure all fields in your output match the schema exactly and there are no trailing commas!
+
+Here is the JSON Schema instance your output must adhere to. Include the enclosing markdown codeblock:
+```json
+{
+  "type": "object",
+  "properties": {
+    "elements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "entityName": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "description": "camelCase, no spaces"
+          },
+          "type": {
+            "type": "string",
+            "description": "Allowed values: String(50), Boolean, Integer, Decimal, Double, Date, Time, DateTime, Timestamp; String length can vary - i.e. String(20)"
+          },
+          "key": {
+            "type": "boolean",
+            "description": "max. one optional key per entity, only if this element is a semantic key and can uniquely identify the instance"
+          },
+          "essentialElement": {
+            "type": "boolean",
+            "description": "'true' only if element is marked as essential'"
+          },
+          "additionalInfo": {
+            "type": "string",
+            "description": "All additional information from user input, e.g. user description, example values; also consider referenced parts in the user input"
+          }
+        },
+        "required": [
+          "entityName",
+          "name",
+          "type",
+          "additionalInfo"
+        ],
+        "additionalProperties": false
+      },
+      "description": "At least 5 realistic elements (unless explicitly specified)"
+    }
+  },
+  "required": [
+    "elements"
+  ],
+  "additionalProperties": false
+}
+```
+
+Output ONLY the json contents and try to be as accurate as comprehensive as possible.
+
+<UserInput>
+Create a SAP Fiori application based on the requirements outlined in the following user story: User Story Description
+As a retail grocery store manager, I want to create and manage sale events that are called flash sales. The application should include the following entities.
+The Flash Sale entity generally has the following attributes:
+1.	Start date and time
+2.	Duration Hours (a decimal number)
+3.	Title
+4.	Description
+5.	Status which can include “New”, “Pending Approval”, “Ready”, “Running”, “Completed”, “Rejected”, and “Canceled”
+6.	A one-to-many composition of Sale Product
+The Sale Product entity maintains a list of grocery products that are part of the sale. The Sale Product entity generally has the following attributes:
+1.	Sale price
+2.	Product ID
+The Product entity maintains the master list of grocery products. The Product entity generally contains the following attributes:
+1.	Product ID
+2.	Product Name
+3.	Regular price
+4.	Shelf Location (a string specifying the physical location of the shelf space)
+5.	ESL Device (a string specifying the hardware address of the shelf label)
+Acceptance Criteria
+Scenario 1: List All Flash Sales
+Given I am logged into the Flash Sale management system, when I launch the SAP Fiori application to maintain flash shales, I should be able to view the list of all the Flash Sale entities in a list without pressing the GO button. The list should be grouped into sections based on the status. The list of all the flash sales should have: start date and time, duration, title, status, default discount, and number of Sale Products. The list of filters should include status and start date.
+Scenario 2:
+Given I am logged into the Flash Sale management system, when I select a specific flash sale from the list of the SAP Fiori application, then I should be able to view the flash sale details.
+</UserInput>
+
+----------Response:----------
+{
+  "elements": [
+    {
+      "entityName": "FlashSales",
+      "name": "startDateAndTime",
+      "type": "DateTime",
+      "key": false,
+      "essentialElement": false,
+      "additionalInfo": "The start date and time of the flash sale"
+    },
+    {
+      "entityName": "FlashSales",
+      "name": "durationHours",
+      "type": "Decimal",
+      "key": false,
+      "essentialElement": false,
+      "additionalInfo": "The duration of the flash sale in hours"
+    },
+    {
+      "entityName": "FlashSales",
+      "name": "title",
+      "type": "String(50)",
+      "key": false,
+      "essentialElement": false,
+      "additionalInfo": "The title of the flash sale"
+    },
+    {
+      "entityName": "FlashSales",
+      "name": "description",
+      "type": "String",
+      "key": false,
+      "essentialElement": false,
+      "additionalInfo": "The description of the flash sale"
+    },
+    {
+      "entityName": "FlashSales",
+      "name": "status",
+      "type": "String(20)",
+      "key": false,
+      "essentialElement": false,
+      "additionalInfo": "The status of the flash sale. Allowed values: New, Pending Approval, Ready, Running, Completed, Rejected, Canceled"
+    },
+    {
+      "entityName": "FlashSales",
+      "name": "saleProducts",
+      "type": "SaleProducts[]",
+      "key": false,
+      "essentialElement": false,
+      "additionalInfo": "A list of sale products associated with the flash sale"
+    },
+    {
+      "entityName": "SaleProducts",
+      "name": "salePrice",
+      "type": "Decimal",
+      "key": false,
+      "essentialElement": false,
+      "additionalInfo": "The sale price of the product"
+    },
+    {
+      "entityName": "SaleProducts",
+      "name": "productID",
+      "type": "String(50)",
+      "key": false,
+      "essentialElement": false,
+      "additionalInfo": "The ID of the product"
+    },
+    {
+      "entityName": "Products",
+      "name": "productID",
+      "type": "String(50)",
+      "key": false,
+      "essentialElement": false,
+      "additionalInfo": "The ID of the product"
+    },
+    {
+      "entityName": "Products",
+      "name": "productName",
+      "type": "String(50)",
+      "key": false,
+      "essentialElement": false,
+      "additionalInfo": "The name of the product"
+    },
+    {
+      "entityName": "Products",
+      "name": "regularPrice",
+      "type": "Decimal",
+      "key": false,
+      "essentialElement": false,
+      "additionalInfo": "The regular price of the product"
+    },
+    {
+      "entityName": "Products",
+      "name": "shelfLocation",
+      "type": "String",
+      "key": false,
+      "essentialElement": false,
+      "additionalInfo": "The physical location of the shelf space"
+    },
+    {
+      "entityName": "Products",
+      "name": "eslDevice",
+      "type": "String",
+      "key": false,
+      "essentialElement": false,
+      "additionalInfo": "The hardware address of the shelf label"
+    }
+  ]
+}
+2024-09-29T16:47:22.241Z [info] 
+==========LLM call for step "extractPropertyDetails":==========
+Here is a list of properties with name and description:
+
+FlashSales_startDateAndTime: The start date and time of the flash sale
+FlashSales_durationHours: The duration of the flash sale in hours
+FlashSales_title: The title of the flash sale
+FlashSales_description: The description of the flash sale
+FlashSales_status: The status of the flash sale. Allowed values: New, Pending Approval, Ready, Running, Completed, Rejected, Canceled
+SaleProducts_salePrice: The sale price of the product
+Products_productID: The ID of the product
+Products_productName: The name of the product
+Products_regularPrice: The regular price of the product
+Products_shelfLocation: The physical location of the shelf space
+Products_eslDevice: The hardware address of the shelf label
+
+For each property analyze the description.
+
+You must format your output as a JSON value that adheres to a given "JSON Schema" instance.
+
+"JSON Schema" is a declarative language that allows you to annotate and validate JSON documents.
+
+For example, the example "JSON Schema" instance {{"properties": {{"foo": {{"description": "a list of test words", "type": "array", "items": {{"type": "string"}}}}}}, "required": ["foo"]}}
+would match an object with one required property, "foo". The "type" property specifies "foo" must be an "array", and the "description" property semantically describes it as "a list of test words". The items within "foo" must be strings.
+Thus, the object {{"foo": ["bar", "baz"]}} is a well-formatted instance of this example "JSON Schema". The object {{"properties": {{"foo": ["bar", "baz"]}}}} is not well-formatted.
+
+Your output will be parsed and type-checked according to the provided schema instance, so make sure all fields in your output match the schema exactly and there are no trailing commas!
+
+Here is the JSON Schema instance your output must adhere to. Include the enclosing markdown codeblock:
+```json
+{
+  "type": "object",
+  "properties": {
+    "properties": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "All values mentioned in the description. Those could be possible values or example values. Don't make up or invent any values"
+          },
+          "hasFixedValuesList": {
+            "type": "boolean",
+            "description": "Only limited list of values expected, e.g. elements representing types, statuses, categories, units, organizations"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "properties"
+  ],
+  "additionalProperties": false
+}
+```
+
+Output ONLY the json contents and try to be as accurate as comprehensive as possible.
+
+----------Response:----------
+{
+  "properties": [
+    {
+      "name": "FlashSales_startDateAndTime",
+      "values": [],
+      "hasFixedValuesList": false
+    },
+    {
+      "name": "FlashSales_durationHours",
+      "values": [],
+      "hasFixedValuesList": false
+    },
+    {
+      "name": "FlashSales_title",
+      "values": [],
+      "hasFixedValuesList": false
+    },
+    {
+      "name": "FlashSales_description",
+      "values": [],
+      "hasFixedValuesList": false
+    },
+    {
+      "name": "FlashSales_status",
+      "values": ["New", "Pending Approval", "Ready", "Running", "Completed", "Rejected", "Canceled"],
+      "hasFixedValuesList": true
+    },
+    {
+      "name": "SaleProducts_salePrice",
+      "values": [],
+      "hasFixedValuesList": false
+    },
+    {
+      "name": "Products_productID",
+      "values": [],
+      "hasFixedValuesList": false
+    },
+    {
+      "name": "Products_productName",
+      "values": [],
+      "hasFixedValuesList": false
+    },
+    {
+      "name": "Products_regularPrice",
+      "values": [],
+      "hasFixedValuesList": false
+    },
+    {
+      "name": "Products_shelfLocation",
+      "values": [],
+      "hasFixedValuesList": false
+    },
+    {
+      "name": "Products_eslDevice",
+      "values": [],
+      "hasFixedValuesList": false
+    }
+  ]
+}
+2024-09-29T16:47:22.243Z [info] Step "switchSimpleOrComplexApp": case 0 blocked! Evaluation details:
+ - JSONPath "$.model.applications[0].pages[2]" : []
+ - JSONPath "$.userInput.lineCount" : [29]
+2024-09-29T16:47:22.243Z [info] Step "switchSimpleOrComplexApp": no condition met - running default steps
+2024-09-29T16:47:22.243Z [info] Step "runFlowForComplexApp": workflow "givenSkeletonExtractComplexApp" started
+"
+2024-09-29T16:47:27.420Z [info] 
+==========LLM call for classifier:==========
+The user input below describes a Fiori Elements application with a ListReport page and multiple ObjectPages.
+ListReport page shows the data of the specific business object as a list or table. ObjectPage shows details of a specific business object instance.
+Your task is to classify the lines based on the same business object representation to the following categories, one line can refer only to a single category:
+ - LIST_REPORT_FLASHSALES: line describes the ListReport page for "FlashSales"
+ - OBJECT_PAGE_FLASHSALES: line describes the ObjectPage for "FlashSales" with a table of "SaleProducts"
+ - NONE: line is not describing any ListReport page or ObjectPage
+
+Return your findings as csv file with columns "lineContent" and "category"!
+
+<UserInput>
+Create a SAP Fiori application based on the requirements outlined in the following user story: User Story Description
+As a retail grocery store manager, I want to create and manage sale events that are called flash sales.
+The application should include the following entities.
+The Flash Sale entity generally has the following attributes:
+1.	Start date and time
+2.	Duration Hours (a decimal number)
+3.	Title
+4.	Description
+5.	Status which can include “New”, “Pending Approval”, “Ready”, “Running”, “Completed”, “Rejected”, and “Canceled”
+6.	A one-to-many composition of Sale Product
+The Sale Product entity maintains a list of grocery products that are part of the sale.
+The Sale Product entity generally has the following attributes:
+1.	Sale price
+2.	Product ID
+The Product entity maintains the master list of grocery products.
+The Product entity generally contains the following attributes:
+1.	Product ID
+2.	Product Name
+3.	Regular price
+4.	Shelf Location (a string specifying the physical location of the shelf space)
+5.	ESL Device (a string specifying the hardware address of the shelf label)
+Acceptance Criteria
+Scenario 1: List All Flash Sales
+Given I am logged into the Flash Sale management system, when I launch the SAP Fiori application to maintain flash shales, I should be able to view the list of all the Flash Sale entities in a list without pressing the GO button.
+The list should be grouped into sections based on the status.
+The list of all the flash sales should have: start date and time, duration, title, status, default discount, and number of Sale Products.
+The list of filters should include status and start date.
+Scenario 2:
+Given I am logged into the Flash Sale management system, when I select a specific flash sale from the list of the SAP Fiori application, then I should be able to view the flash sale details.
+</UserInput>
+
+----------Response:----------
+lineContent,category
+Create a SAP Fiori application based on the requirements outlined in the following user story: User Story Description,NONE
+As a retail grocery store manager, I want to create and manage sale events that are called flash sales.,NONE
+The application should include the following entities.,NONE
+The Flash Sale entity generally has the following attributes:,NONE
+1. Start date and time,NONE
+2. Duration Hours (a decimal number),NONE
+3. Title,NONE
+4. Description,NONE
+5. Status which can include “New”, “Pending Approval”, “Ready”, “Running”, “Completed”, “Rejected”, and “Canceled”,NONE
+6. A one-to-many composition of Sale Product,NONE
+The Sale Product entity maintains a list of grocery products that are part of the sale.,NONE
+The Sale Product entity generally has the following attributes:,NONE
+1. Sale price,NONE
+2. Product ID,NONE
+The Product entity maintains the master list of grocery products.,NONE
+The Product entity generally contains the following attributes:,NONE
+1. Product ID,NONE
+2. Product Name,NONE
+3. Regular price,NONE
+4. Shelf Location (a string specifying the physical location of the shelf space),NONE
+5. ESL Device (a string specifying the hardware address of the shelf label),NONE
+Acceptance Criteria,NONE
+Scenario 1: List All Flash Sales,NONE
+Given I am logged into the Flash Sale management system, when I launch the SAP Fiori application to maintain flash shales, I should be able to view the list of all the Flash Sale entities in a list without pressing the GO button.,LIST_REPORT_FLASHSALES
+The list should be grouped into sections based on the status.,LIST_REPORT_FLASHSALES
+The list of all the flash sales should have: start date and time, duration, title, status, default discount, and number of Sale Products.,LIST_REPORT_FLASHSALES
+The list of filters should include status and start date.,LIST_REPORT_FLASHSALES
+Scenario 2:,NONE
+Given I am logged into the Flash Sale management system, when I select a specific flash sale from the list of the SAP Fiori application, then I should be able to view the flash sale details.,OBJECT_PAGE_FLASHSALES
+2024-09-29T16:47:27.420Z [info] Step "loopOverPages": looping over 2 entries
+"
+2024-09-29T16:47:27.421Z [info] Step "loopOverPages" index 0: pageType=ListReport, entityType=FlashSales
+2024-09-29T16:47:27.421Z [info] Step "ifListReportPage": case 0 passed! Evaluation details:
+ - Variable "pageType" : "ListReport"
+2024-09-29T16:47:28.847Z [info] 
+==========LLM call for step "extractListReport":==========
+A Fiori Elements Application has the following pages:
+ - ListReport page for "FlashSales"
+ - ObjectPage for "FlashSales"
+
+Available entities with their associations and elements are:
+Entity "FlashSales"
+   Properties:
+       startDateAndTime: The start date and time of the flash sale
+       durationHours: The duration of the flash sale in hours
+       title: The title of the flash sale
+       description: The description of the flash sale
+       status: The status of the flash sale. Allowed values: New, Pending Approval, Ready, Running, Completed, Rejected, Canceled
+   Associations:
+       saleProducts: association to entity SaleProducts
+Entity "SaleProducts"
+   Properties:
+       salePrice: The sale price of the product
+   Associations:
+       product: association to entity Products
+       flashSales: association to entity FlashSales
+Entity "Products"
+   Properties:
+       productID: The ID of the product
+       productName: The name of the product
+       regularPrice: The regular price of the product
+       shelfLocation: The physical location of the shelf space
+       eslDevice: The hardware address of the shelf label
+
+The user input below describes the details of the ListReport page (i.e. its filters, tables or views with their columns).
+
+Your task is to help the user defining the ListReport page.
+You must format your output as a JSON value that adheres to a given "JSON Schema" instance.
+
+"JSON Schema" is a declarative language that allows you to annotate and validate JSON documents.
+
+For example, the example "JSON Schema" instance {{"properties": {{"foo": {{"description": "a list of test words", "type": "array", "items": {{"type": "string"}}}}}}, "required": ["foo"]}}
+would match an object with one required property, "foo". The "type" property specifies "foo" must be an "array", and the "description" property semantically describes it as "a list of test words". The items within "foo" must be strings.
+Thus, the object {{"foo": ["bar", "baz"]}} is a well-formatted instance of this example "JSON Schema". The object {{"properties": {{"foo": ["bar", "baz"]}}}} is not well-formatted.
+
+Your output will be parsed and type-checked according to the provided schema instance, so make sure all fields in your output match the schema exactly and there are no trailing commas!
+
+Here is the JSON Schema instance your output must adhere to. Include the enclosing markdown codeblock:
+```json
+{
+  "type": "object",
+  "properties": {
+    "loadDataOnAppLaunch": {
+      "type": "string",
+      "enum": [
+        "Auto",
+        "Disabled",
+        "Enabled"
+      ],
+      "description": "'Auto': no explicit user input to load the data after start or an explicit user input to set InitialLoad for table to Auto; 'Disabled': An initial load of data does not occur at app start and the user has to actively click the Go button;  'Enabled': An initial load of data occurs automatically after start  (list is visible without pressing the GO Button)."
+    },
+    "tables": {
+      "type": "array",
+      "description": "tables (views) expected in user input",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "baseEntityType": {
+            "type": "string",
+            "description": "base entity type for the table"
+          },
+          "columns": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "propertyPaths for columns"
+          }
+        },
+        "required": [
+          "title",
+          "baseEntityType",
+          "columns"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "filters": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "propertyPaths for filters specified in user input. If not specified, empty array"
+    }
+  },
+  "required": [
+    "tables"
+  ],
+  "additionalProperties": false
+}
+```
+
+Output ONLY the json contents and try to be as accurate as comprehensive as possible.
+
+<UserInput>
+Create a SAP Fiori application based on the requirements outlined in the following user story: User Story Description
+As a retail grocery store manager, I want to create and manage sale events that are called flash sales.
+The application should include the following entities.
+The Flash Sale entity generally has the following attributes:
+1. Start date and time
+2. Duration Hours (a decimal number)
+3. Title
+4. Description
+5. Status which can include “New”, “Pending Approval”, “Ready”, “Running”, “Completed”, “Rejected”, and “Canceled”
+6. A one-to-many composition of Sale Product
+The Sale Product entity maintains a list of grocery products that are part of the sale.
+The Sale Product entity generally has the following attributes:
+1. Sale price
+2. Product ID
+The Product entity maintains the master list of grocery products.
+The Product entity generally contains the following attributes:
+1. Product ID
+2. Product Name
+3. Regular price
+4. Shelf Location (a string specifying the physical location of the shelf space)
+5. ESL Device (a string specifying the hardware address of the shelf label)
+Acceptance Criteria
+Scenario 1: List All Flash Sales
+Given I am logged into the Flash Sale management system, when I launch the SAP Fiori application to maintain flash shales, I should be able to view the list of all the Flash Sale entities in a list without pressing the GO button.
+The list should be grouped into sections based on the status.
+The list of all the flash sales should have: start date and time, duration, title, status, default discount, and number of Sale Products.
+The list of filters should include status and start date.
+Scenario 2:
+</UserInput>
+
+----------Response:----------
+{
+  "loadDataOnAppLaunch": "Enabled",
+  "tables": [
+    {
+      "title": "FlashSales",
+      "id": "flashSalesTable",
+      "baseEntityType": "FlashSales",
+      "columns": [
+        "startDateAndTime",
+        "durationHours",
+        "title",
+        "status",
+        "saleProducts"
+      ]
+    }
+  ],
+  "filters": [
+    "status",
+    "startDateAndTime"
+  ]
+}
+2024-09-29T16:47:28.848Z [info] Step "loopOverPages" index 1: pageType=ObjectPage, entityType=FlashSales
+2024-09-29T16:47:28.848Z [info] Step "ifListReportPage": case 0 blocked! Evaluation details:
+ - Variable "pageType" : "ObjectPage"
+2024-09-29T16:47:28.848Z [info] Step "ifListReportPage": no condition met - running default steps
+2024-09-29T16:47:28.849Z [info] Step "extractSingleObjectPageOfMany" SKIPPED: no user input after filter
+2024-09-29T16:47:28.849Z [info] Step "ifCodeListsPresent": case 0 passed! Evaluation details:
+ - JSONPath "$.model.entities[*].elements[*].values[*]" : ["New","Pending Approval","Ready","Running","Completed","Rejected","Canceled"]
+2024-09-29T16:47:32.190Z [info] 
+==========LLM call for step "extractColors":==========
+You help the user creating a Fiori Elements application based on user input describing such an application.
+Your task is to determine whether the entity properties can be considered good and bad in most contexts or are usually neutral. When in doubt, set to neutral.
+
+These are the entity properties and their values:
+Entity: FlashSales, Property: status, Values: New, Pending Approval, Ready, Running, Completed, Rejected, Canceled
+
+If the properties can be considered good and bad, the allowed values for their criticality and the associated colors are:
+   negative: red
+   critical: yellow or orange
+   positive: green
+   neutral:  grey
+You must format your output as a JSON value that adheres to a given "JSON Schema" instance.
+
+"JSON Schema" is a declarative language that allows you to annotate and validate JSON documents.
+
+For example, the example "JSON Schema" instance {{"properties": {{"foo": {{"description": "a list of test words", "type": "array", "items": {{"type": "string"}}}}}}, "required": ["foo"]}}
+would match an object with one required property, "foo". The "type" property specifies "foo" must be an "array", and the "description" property semantically describes it as "a list of test words". The items within "foo" must be strings.
+Thus, the object {{"foo": ["bar", "baz"]}} is a well-formatted instance of this example "JSON Schema". The object {{"properties": {{"foo": ["bar", "baz"]}}}} is not well-formatted.
+
+Your output will be parsed and type-checked according to the provided schema instance, so make sure all fields in your output match the schema exactly and there are no trailing commas!
+
+Here is the JSON Schema instance your output must adhere to. Include the enclosing markdown codeblock:
+```json
+{
+  "type": "object",
+  "properties": {
+    "properties": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "type": "string"
+          },
+          "property": {
+            "type": "string"
+          },
+          "hasColorsOrCriticality": {
+            "type": "boolean",
+            "description": "true if the given values of the property can be good or bad, false if they are usually neutral"
+          },
+          "reason": {
+            "type": "string",
+            "description": "detailed explanation why you set hasColorsOrCriticality to this value"
+          },
+          "mapping": {
+            "type": "array",
+            "description": "empty if 'hasColorsOrCriticality' is false",
+            "items": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "description": "value of property"
+                },
+                "colorOrCriticality": {
+                  "type": "string",
+                  "description": "color or criticality associated with value"
+                },
+                "reason": {
+                  "type": "string",
+                  "description": "detailed explanation why you set ColorOrCriticality to this value"
+                }
+              },
+              "required": [
+                "value",
+                "colorOrCriticality"
+              ]
+            }
+          }
+        },
+        "required": [
+          "entity",
+          "property"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "properties"
+  ],
+  "additionalProperties": false
+}
+```
+
+Output ONLY the json contents and try to be as accurate as comprehensive as possible.
+
+<UserInput>
+Create a SAP Fiori application based on the requirements outlined in the following user story: User Story Description
+As a retail grocery store manager, I want to create and manage sale events that are called flash sales. The application should include the following entities.
+The Flash Sale entity generally has the following attributes:
+1.	Start date and time
+2.	Duration Hours (a decimal number)
+3.	Title
+4.	Description
+5.	Status which can include “New”, “Pending Approval”, “Ready”, “Running”, “Completed”, “Rejected”, and “Canceled”
+6.	A one-to-many composition of Sale Product
+The Sale Product entity maintains a list of grocery products that are part of the sale. The Sale Product entity generally has the following attributes:
+1.	Sale price
+2.	Product ID
+The Product entity maintains the master list of grocery products. The Product entity generally contains the following attributes:
+1.	Product ID
+2.	Product Name
+3.	Regular price
+4.	Shelf Location (a string specifying the physical location of the shelf space)
+5.	ESL Device (a string specifying the hardware address of the shelf label)
+Acceptance Criteria
+Scenario 1: List All Flash Sales
+Given I am logged into the Flash Sale management system, when I launch the SAP Fiori application to maintain flash shales, I should be able to view the list of all the Flash Sale entities in a list without pressing the GO button. The list should be grouped into sections based on the status. The list of all the flash sales should have: start date and time, duration, title, status, default discount, and number of Sale Products. The list of filters should include status and start date.
+Scenario 2:
+Given I am logged into the Flash Sale management system, when I select a specific flash sale from the list of the SAP Fiori application, then I should be able to view the flash sale details.
+</UserInput>
+
+
+----------Response:----------
+{
+  "properties": [
+    {
+      "entity": "FlashSales",
+      "property": "status",
+      "hasColorsOrCriticality": true,
+      "reason": "The status property of the FlashSales entity can be considered good and bad in most contexts.",
+      "mapping": [
+        {
+          "value": "New",
+          "colorOrCriticality": "neutral",
+          "reason": "The 'New' status is usually neutral."
+        },
+        {
+          "value": "Pending Approval",
+          "colorOrCriticality": "neutral",
+          "reason": "The 'Pending Approval' status is usually neutral."
+        },
+        {
+          "value": "Ready",
+          "colorOrCriticality": "neutral",
+          "reason": "The 'Ready' status is usually neutral."
+        },
+        {
+          "value": "Running",
+          "colorOrCriticality": "neutral",
+          "reason": "The 'Running' status is usually neutral."
+        },
+        {
+          "value": "Completed",
+          "colorOrCriticality": "positive",
+          "reason": "The 'Completed' status can be considered positive."
+        },
+        {
+          "value": "Rejected",
+          "colorOrCriticality": "negative",
+          "reason": "The 'Rejected' status can be considered negative."
+        },
+        {
+          "value": "Canceled",
+          "colorOrCriticality": "negative",
+          "reason": "The 'Canceled' status can be considered negative."
+        }
+      ]
+    }
+  ]
+}
+2024-09-29T16:47:37.982Z [info] 
+==========LLM call for data generation:==========
+
+For the following list of entities, create data for the empty CSV files.
+Entity "FlashSales" - Properties:
+    startDateAndTime: DateTime, The start date and time of the flash sale
+    durationHours: Decimal, The duration of the flash sale in hours
+    title: String(50), The title of the flash sale
+    description: String, The description of the flash sale
+    status: String(20), The status of the flash sale. Allowed values: New, Pending Approval, Ready, Running, Completed, Rejected, Canceled
+
+Entity "SaleProducts" - Properties:
+    salePrice: Decimal, The sale price of the product
+    product_productID: String(50), productID of associated Products
+    flashSales_startDateAndTime: DateTime, startDateAndTime of associated FlashSales
+
+Entity "Products" - Properties:
+    productID: String(50), The ID of the product
+    productName: String(50), The name of the product
+    regularPrice: Decimal, The regular price of the product
+    shelfLocation: String, The physical location of the shelf space
+    eslDevice: String, The hardware address of the shelf label
+
+Empty CSV files in json format (only generate content for these files!):
+{"FlashSales.csv":"startDateAndTime;durationHours;title;description;status","SaleProducts.csv":"salePrice;product_productID;flashSales_startDateAndTime","Products.csv":"productID;productName;regularPrice;shelfLocation;eslDevice"}
+
+Rules:
+    - Take over the given header line, do not invent new columns!
+    - For a given file, add rows, add '\n' characters before each row but don't break the JSON string
+    - Do not generate rows with same key values, they must be unique!
+    - Make sure that associations match, i.e. a field containing "Name of the associated Customer" must contain an existing Name of entity Customer
+    - Always use ";" as a delimiter in CSV files
+    - The result must be proper JSON format so it can be parsed, don't break JSON strings within, don't add quotes around values.
+    - Create about 5 rows for the first csv, 7 for the second and so on
+    - All values must be realistic with meaningful content, e.g. 'Laptop Screen' and not just placeholder values with incremented numbers like 'Product 1', 'Product 2' etc.
+    
+Use format for values:
+  DateTime: 2021-06-27T14:52:23Z
+  Decimal(3,2): 1.23
+  String(50): string no longer than 50 characters
+    
+For the following fields, use only the supplied allowed values (as they are, don't insert spaces or change case):
+- status (of FlashSales): New, PendingApproval, Ready, Running, Completed, Rejected, Canceled
+
+Example output (Do NOT include in output!):
+```json
+{"Blogs":"blogID;title;description;createdDateTime;views\nBlog1;Tech Blog;A blog about the latest technology trends.;2023-06-27T14:52:23Z;1000\nBlog2;Fashion Blog;Explore the world of fashion and style.;2023-06-27T14:52:23Z;500","Posts":"postID;title;content;publishDate;likes;comments;blogID\n1;The Future of Artificial Intelligence;Artificial intelligence is shaping the future of technology.;2023-06-27;50;10;Blog1
+2;Summer Fashion Trends;Discover the hottest fashion trends for the summer season.;2023-06-27;100;20;Blog2\n3;Must-Have Accessories;10 must-have accessories for the upcoming season;2023-06-27;100;20;Blog2"}
+```
+Output ONLY the json contents for the csv files and try to be as accurate as possible.    
+
+
+
+----------Response:----------
+{"FlashSales.csv":"startDateAndTime;durationHours;title;description;status\n2021-06-27T14:52:23Z;2.5;Electronics Flash Sale;Get amazing deals on electronics products.;New\n2021-06-28T10:00:00Z;1.5;Fashion Flash Sale;Shop the latest fashion trends at discounted prices.;Ready\n2021-06-29T15:30:00Z;3;Home Decor Flash Sale;Upgrade your home with stylish decor items.;Running\n2021-06-30T09:45:00Z;2;Beauty Flash Sale;Discover beauty products at unbeatable prices.;Completed\n2021-07-01T12:00:00Z;1;Sports Flash Sale;Get active with discounted sports equipment.;Canceled","SaleProducts.csv":"salePrice;product_productID;flashSales_startDateAndTime\n99.99;P12345;2021-06-27T14:52:23Z\n49.99;P67890;2021-06-28T10:00:00Z\n29.99;P23456;2021-06-29T15:30:00Z\n79.99;P78901;2021-06-30T09:45:00Z\n39.99;P34567;2021-07-01T12:00:00Z","Products.csv":"productID;productName;regularPrice;shelfLocation;eslDevice\nP12345;Laptop;799.99;A1;ABC123\nP67890;Dress;59.99;B2;DEF456\nP23456;Candle;19.99;C3;GHI789\nP78901;Foundation;49.99;D4;JKL012\nP34567;Basketball;29.99;E5;MNO345"}

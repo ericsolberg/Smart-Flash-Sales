@@ -1,0 +1,8 @@
+code;name;criticality
+New;New;0
+PendingApproval;Pending Approval;2
+Ready;Ready;3
+Running;Running;3
+Completed;Completed;3
+Rejected;Rejected;1
+Canceled;Canceled;1

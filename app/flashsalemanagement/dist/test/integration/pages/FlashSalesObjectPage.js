@@ -1,0 +1,2 @@
+sap.ui.define(["sap/fe/test/ObjectPage"],function(e){"use strict";var a={actions:{},assertions:{}};return new e({appId:"flashsalemanagement",componentId:"FlashSalesObjectPage",contextPath:"/FlashSales"},a)});
+//# sourceMappingURL=FlashSalesObjectPage.js.map

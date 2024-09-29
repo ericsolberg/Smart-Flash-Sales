@@ -1,0 +1,2 @@
+sap.ui.require(["sap/fe/test/JourneyRunner","flashsalemanagement/test/integration/FirstJourney","flashsalemanagement/test/integration/pages/FlashSalesList","flashsalemanagement/test/integration/pages/FlashSalesObjectPage"],function(e,a,s,t){"use strict";var e=new e({launchUrl:sap.ui.require.toUrl("flashsalemanagement")+"/index.html"});e.run({pages:{onTheFlashSalesList:s,onTheFlashSalesObjectPage:t}},a.run)});
+//# sourceMappingURL=opaTests.qunit.js.map

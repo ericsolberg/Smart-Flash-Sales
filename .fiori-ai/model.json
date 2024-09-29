@@ -1,0 +1,282 @@
+{
+    "namespace": "flashsales",
+    "entities": [
+        {
+            "name": "FlashSales",
+            "label": "Flash Sale",
+            "associations": [
+                {
+                    "name": "saleProducts",
+                    "target": "SaleProducts",
+                    "isComposition": true,
+                    "multiplicity": "many",
+                    "backAssociation": "flashSales"
+                }
+            ],
+            "labelPlural": "Flash Sales",
+            "elements": [
+                {
+                    "name": "ID",
+                    "type": "UUID",
+                    "key": true,
+                    "label": ""
+                },
+                {
+                    "name": "startDateAndTime",
+                    "type": "DateTime",
+                    "label": "Start Date And Time",
+                    "additionalInfo": "The start date and time of the flash sale",
+                    "key": false,
+                    "essentialElement": false,
+                    "values": [],
+                    "hasFixedValuesList": false
+                },
+                {
+                    "name": "durationHours",
+                    "type": "Decimal",
+                    "label": "Duration Hours",
+                    "additionalInfo": "The duration of the flash sale in hours",
+                    "key": false,
+                    "essentialElement": false,
+                    "values": [],
+                    "hasFixedValuesList": false
+                },
+                {
+                    "name": "title",
+                    "type": "String(50)",
+                    "label": "Title",
+                    "additionalInfo": "The title of the flash sale",
+                    "key": false,
+                    "essentialElement": false,
+                    "values": [],
+                    "hasFixedValuesList": false
+                },
+                {
+                    "name": "description",
+                    "type": "String",
+                    "label": "Description",
+                    "additionalInfo": "The description of the flash sale",
+                    "key": false,
+                    "essentialElement": false,
+                    "values": [],
+                    "hasFixedValuesList": false
+                },
+                {
+                    "name": "status",
+                    "type": "String(20)",
+                    "label": "Status",
+                    "additionalInfo": "The status of the flash sale. Allowed values: New, Pending Approval, Ready, Running, Completed, Rejected, Canceled",
+                    "key": false,
+                    "essentialElement": false,
+                    "values": [
+                        "New",
+                        "Pending Approval",
+                        "Ready",
+                        "Running",
+                        "Completed",
+                        "Rejected",
+                        "Canceled"
+                    ],
+                    "hasFixedValuesList": true,
+                    "hasColorsOrCriticality": true,
+                    "reason": "The status property of the FlashSales entity can be considered good and bad in most contexts.",
+                    "mapping": [
+                        {
+                            "value": "New",
+                            "colorOrCriticality": "neutral",
+                            "reason": "The 'New' status is usually neutral."
+                        },
+                        {
+                            "value": "Pending Approval",
+                            "colorOrCriticality": "neutral",
+                            "reason": "The 'Pending Approval' status is usually neutral."
+                        },
+                        {
+                            "value": "Ready",
+                            "colorOrCriticality": "neutral",
+                            "reason": "The 'Ready' status is usually neutral."
+                        },
+                        {
+                            "value": "Running",
+                            "colorOrCriticality": "neutral",
+                            "reason": "The 'Running' status is usually neutral."
+                        },
+                        {
+                            "value": "Completed",
+                            "colorOrCriticality": "positive",
+                            "reason": "The 'Completed' status can be considered positive."
+                        },
+                        {
+                            "value": "Rejected",
+                            "colorOrCriticality": "negative",
+                            "reason": "The 'Rejected' status can be considered negative."
+                        },
+                        {
+                            "value": "Canceled",
+                            "colorOrCriticality": "negative",
+                            "reason": "The 'Canceled' status can be considered negative."
+                        }
+                    ],
+                    "criticalities": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        3,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SaleProducts",
+            "label": "Sale Product",
+            "associations": [
+                {
+                    "name": "product",
+                    "target": "Products",
+                    "isComposition": false,
+                    "multiplicity": "one"
+                },
+                {
+                    "name": "flashSales",
+                    "target": "FlashSales",
+                    "multiplicity": "one",
+                    "isComposition": false
+                }
+            ],
+            "labelPlural": "Sale Products",
+            "elements": [
+                {
+                    "name": "ID",
+                    "type": "UUID",
+                    "key": true,
+                    "label": ""
+                },
+                {
+                    "name": "salePrice",
+                    "type": "Decimal",
+                    "label": "Sale Price",
+                    "additionalInfo": "The sale price of the product",
+                    "key": false,
+                    "essentialElement": false,
+                    "semanticKey": true,
+                    "values": [],
+                    "hasFixedValuesList": false
+                }
+            ]
+        },
+        {
+            "name": "Products",
+            "label": "Product",
+            "labelPlural": "Products",
+            "associations": [],
+            "elements": [
+                {
+                    "name": "ID",
+                    "type": "UUID",
+                    "key": true,
+                    "label": ""
+                },
+                {
+                    "name": "productID",
+                    "type": "String(50)",
+                    "label": "Product ID",
+                    "additionalInfo": "The ID of the product",
+                    "key": false,
+                    "essentialElement": false,
+                    "values": [],
+                    "hasFixedValuesList": false
+                },
+                {
+                    "name": "productName",
+                    "type": "String(50)",
+                    "label": "Product Name",
+                    "additionalInfo": "The name of the product",
+                    "key": false,
+                    "essentialElement": false,
+                    "values": [],
+                    "hasFixedValuesList": false
+                },
+                {
+                    "name": "regularPrice",
+                    "type": "Decimal",
+                    "label": "Regular Price",
+                    "additionalInfo": "The regular price of the product",
+                    "key": false,
+                    "essentialElement": false,
+                    "values": [],
+                    "hasFixedValuesList": false
+                },
+                {
+                    "name": "shelfLocation",
+                    "type": "String",
+                    "label": "Shelf Location",
+                    "additionalInfo": "The physical location of the shelf space",
+                    "key": false,
+                    "essentialElement": false,
+                    "values": [],
+                    "hasFixedValuesList": false
+                },
+                {
+                    "name": "eslDevice",
+                    "type": "String",
+                    "label": "Esl Device",
+                    "additionalInfo": "The hardware address of the shelf label",
+                    "key": false,
+                    "essentialElement": false,
+                    "values": [],
+                    "hasFixedValuesList": false
+                }
+            ]
+        }
+    ],
+    "service": {
+        "name": "flashsalesSrv",
+        "path": "srv/service.cds"
+    },
+    "applications": [
+        {
+            "pages": [
+                {
+                    "type": "ListReport",
+                    "entityType": "FlashSales",
+                    "listReportContent": {
+                        "loadDataOnAppLaunch": "Enabled",
+                        "tables": [
+                            {
+                                "title": "FlashSales",
+                                "id": "flashSalesTable",
+                                "baseEntityType": "FlashSales",
+                                "columns": [
+                                    "startDateAndTime",
+                                    "durationHours",
+                                    "title",
+                                    "status",
+                                    "saleProducts_ID"
+                                ]
+                            }
+                        ],
+                        "filters": [
+                            "status",
+                            "startDateAndTime"
+                        ]
+                    }
+                },
+                {
+                    "type": "ObjectPage",
+                    "entityType": "FlashSales",
+                    "objectPageContent": {
+                        "tableSectionAssociations": [
+                            "saleProducts"
+                        ],
+                        "sections": [],
+                        "tabs": []
+                    }
+                }
+            ],
+            "name": "FlashSaleManagement"
+        }
+    ]
+}

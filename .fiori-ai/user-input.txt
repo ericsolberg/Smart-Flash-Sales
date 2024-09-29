@@ -1,0 +1,23 @@
+Create a SAP Fiori application based on the requirements outlined in the following user story: User Story Description
+As a retail grocery store manager, I want to create and manage sale events that are called flash sales. The application should include the following entities.
+The Flash Sale entity generally has the following attributes:
+1.	Start date and time
+2.	Duration Hours (a decimal number)
+3.	Title
+4.	Description
+5.	Status which can include “New”, “Pending Approval”, “Ready”, “Running”, “Completed”, “Rejected”, and “Canceled”
+6.	A one-to-many composition of Sale Product
+The Sale Product entity maintains a list of grocery products that are part of the sale. The Sale Product entity generally has the following attributes:
+1.	Sale price
+2.	Product ID
+The Product entity maintains the master list of grocery products. The Product entity generally contains the following attributes:
+1.	Product ID
+2.	Product Name
+3.	Regular price
+4.	Shelf Location (a string specifying the physical location of the shelf space)
+5.	ESL Device (a string specifying the hardware address of the shelf label)
+Acceptance Criteria
+Scenario 1: List All Flash Sales
+Given I am logged into the Flash Sale management system, when I launch the SAP Fiori application to maintain flash shales, I should be able to view the list of all the Flash Sale entities in a list without pressing the GO button. The list should be grouped into sections based on the status. The list of all the flash sales should have: start date and time, duration, title, status, default discount, and number of Sale Products. The list of filters should include status and start date.
+Scenario 2:
+Given I am logged into the Flash Sale management system, when I select a specific flash sale from the list of the SAP Fiori application, then I should be able to view the flash sale details.

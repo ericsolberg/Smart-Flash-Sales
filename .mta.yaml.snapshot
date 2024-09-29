@@ -1,0 +1,216 @@
+_schema-version: '3.1'
+ID: smartflashsales
+version: 1.0.0
+description: A simple CAP project.
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - rm -rf build/dist
+        - mkdir -p build/dist
+        - rm -rf build/ui-deployer
+        - mkdir -p build/ui-deployer
+    - builder: custom
+      commands:
+        - npm install --production
+        - >-
+          bash -c "cds -v | grep 'cds-dk' || npm i --production --no-save
+          @sap/cds-dk @sap/mdk-tools"
+        - bash -c "export PATH=$PATH:$(pwd)/node_modules/.bin"
+        - cds build --production
+  after-all:
+    - builder: custom
+      commands:
+        - npm install
+modules:
+  - name: smartflashsales-flashsalemanagement
+    type: html5
+    path: app/flashsalemanagement
+    build-parameters:
+      builder: custom
+      commands:
+        - rm -rf dist-zip dist
+        - npm install
+        - >-
+          npx -p @ui5/cli@^3.0.0 ui5 build --dest dist
+          --include-task=generateCachebusterInfo
+        - mkdir dist-zip
+        - bash -c "cd dist && npx bestzip ../dist-zip/flashsalemanagement.zip *"
+      _artifactName: flashsalemanagement.zip
+      supported-platforms: []
+      build-result: dist-zip
+  - name: smartflashsales-db-deployer
+    type: hdb
+    path: gen/db
+    parameters:
+      buildpack: nodejs_buildpack
+    build-parameters:
+      builder: npm
+      ignore:
+        - node_modules
+        - package-lock.json
+    requires:
+      - name: smartflashsales-service-uaa
+      - name: smartflashsales-service-db
+  - name: smartflashsales-srv
+    type: nodejs
+    path: gen/srv
+    parameters:
+      memory: 256MB
+    provides:
+      - name: srv-api
+        properties:
+          srv-url: ${default-url}
+    build-parameters:
+      builder: npm
+      ignore:
+        - node_modules
+        - package-lock.json
+    requires:
+      - name: smartflashsales-service-uaa
+      - name: smartflashsales-service-db
+      - name: smartflashsales-service-destination
+      - name: smartflashsales-service-metadata
+      - name: smartflashsales-service-connectivity
+      - name: smartflashsales-service-logs
+  - name: smartflashsales-aux-destinations
+    type: com.sap.application.content
+    parameters:
+      content:
+        subaccount:
+          existing_destinations_policy: update
+          destinations:
+            - Authentication: OAuth2UserTokenExchange
+              Name: smartflashsales-service-uaa
+              ServiceInstanceName: smartflashsales-uaa
+              ServiceKeyName: smartflashsales-uaa-key
+              sap.cloud.service: lcap.smartflashsales
+            - Authentication: OAuth2UserTokenExchange
+              Name: smartflashsales-app-srv
+              TokenServiceInstanceName: smartflashsales-uaa
+              TokenServiceKeyName: smartflashsales-uaa-key
+              URL: ~{srv-api/srv-url}
+              sap.cloud.service: lcap.smartflashsales
+            - Name: smartflashsales-service-html5-apps-repo-host
+              ServiceInstanceName: smartflashsales-html5-apps-repo-host
+              ServiceKeyName: smartflashsales-html5-apps-repo-host-key
+              sap.cloud.service: lcap.smartflashsales
+            - Authentication: OAuth2UserTokenExchange
+              Name: smartflashsales-flashsalesSrv
+              TokenServiceInstanceName: smartflashsales-uaa
+              TokenServiceKeyName: smartflashsales-uaa-key
+              URL: ~{srv-api/srv-url}/odata/v4/flashsales-srv
+              sap.cloud.service: lcap.smartflashsales
+              sap.applicationdevelopment.actions.enabled: false
+              sap.build.usage: CAP
+              sap.processautomation.enabled: false
+              HTML5.DynamicDestination: false
+              WebIDEEnabled: false
+              MobileEnabled: false
+              AppgyverEnabled: false
+    build-parameters:
+      no-source: true
+    requires:
+      - name: smartflashsales-service-uaa
+        parameters:
+          service-key:
+            name: smartflashsales-uaa-key
+      - name: srv-api
+      - name: smartflashsales-service-html5-apps-repo-host
+        parameters:
+          service-key:
+            name: smartflashsales-html5-apps-repo-host-key
+      - name: smartflashsales-service-destination
+        parameters:
+          content-target: true
+  - name: smartflashsales-launchpad
+    type: html5
+    path: build/launchpad
+    build-parameters:
+      builder: custom
+      commands:
+        - npm install
+        - >-
+          npx -p @ui5/cli@^3.0.0 ui5 build --dest dist
+          --include-task=generateCachebusterInfo
+        - bash -c "cd dist && npx bestzip ../../../build/dist/launchpad.zip *"
+        - rm -rf dist
+      _artifactName: launchpad.zip
+      supported-platforms: []
+      build-result: ../../build/dist
+  - name: smartflashsales-aux-ui-deployer
+    type: com.sap.application.content
+    path: build/ui-deployer
+    build-parameters:
+      build-result: resources
+      requires:
+        - name: smartflashsales-flashsalemanagement
+          artifacts:
+            - flashsalemanagement.zip
+          target-path: resources
+        - name: smartflashsales-launchpad
+          artifacts:
+            - launchpad.zip
+          target-path: resources
+    requires:
+      - name: smartflashsales-service-html5-apps-repo-host
+        parameters:
+          content-target: true
+resources:
+  - type: org.cloudfoundry.managed-service
+    name: smartflashsales-service-uaa
+    parameters:
+      service: xsuaa
+      service-plan: application
+      service-name: smartflashsales-uaa
+      path: xs-security.json
+      config:
+        oauth2-configuration:
+          redirect-uris:
+            - https://*.${default-domain}/login/*
+        xsappname: smartflashsales-${space}
+        role-collections: []
+  - type: org.cloudfoundry.managed-service
+    name: smartflashsales-service-db
+    parameters:
+      service: hana
+      service-plan: hdi-shared
+      service-name: smartflashsales-db
+  - type: org.cloudfoundry.managed-service
+    name: smartflashsales-service-destination
+    parameters:
+      service: destination
+      service-plan: lite
+      service-name: smartflashsales-destination
+      config:
+        HTML5Runtime_enabled: true
+        version: 1.0.0
+  - type: org.cloudfoundry.user-provided-service
+    name: smartflashsales-service-metadata
+    parameters:
+      service: metadata
+      service-plan: standard
+      service-name: smartflashsales-metadata
+      config:
+        default-domain: ${default-domain}
+  - type: org.cloudfoundry.managed-service
+    name: smartflashsales-service-connectivity
+    parameters:
+      service: connectivity
+      service-plan: lite
+      service-name: smartflashsales-connectivity
+  - type: org.cloudfoundry.managed-service
+    name: smartflashsales-service-logs
+    parameters:
+      service: application-logs
+      service-plan: lite
+      service-name: smartflashsales-logs
+  - type: org.cloudfoundry.managed-service
+    name: smartflashsales-service-html5-apps-repo-host
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-host
+      service-name: smartflashsales-html5-apps-repo-host

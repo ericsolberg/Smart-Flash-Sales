@@ -1,0 +1,6 @@
+ID;productID;productName;regularPrice;shelfLocation;eslDevice
+6702adaa-8a00-4610-9183-94bc335dfe30;P12345;Laptop;799.99;A1;ABC123
+66694544-6f66-47d1-9718-cb52d5d486af;P67890;Dress;59.99;B2;DEF456
+58b3e1bc-aad0-40d9-845a-395ebc6944b2;P23456;Candle;19.99;C3;GHI789
+a16ea0d7-b8e1-4d28-a21f-2129e64faf3c;P78901;Foundation;49.99;D4;JKL012
+ca224663-8915-4c3f-b278-aaad4d0c642c;P34567;Basketball;29.99;E5;MNO345
