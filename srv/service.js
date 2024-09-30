@@ -7,6 +7,8 @@ const flashsales_ApproveSale = require('./code/flashsales-approveSale');
 const flashsales_StartSale = require('./code/flashsales-startSale');
 const flashsales_RejectSale = require('./code/flashsales-rejectSale');
 const flashsales_EndSale = require('./code/flashsales-endSale');
+const flashsales_OnCreate = require('./code/flashsales-onCreate');
+const flashsales_AfterCreate = require('./code/flashsales-afterCreate');
 
 class flashsalesSrv extends LCAPApplicationService {
     async init() {
@@ -25,6 +27,15 @@ class flashsalesSrv extends LCAPApplicationService {
 
         this.on('endSale', 'FlashSales', async (request, next) => {
             return flashsales_EndSale(request);
+        });
+
+        this.on('CREATE', 'FlashSales', async (request, next) => {
+            await flashsales_OnCreate(request);
+            return next();
+        });
+
+        this.after('CREATE', 'FlashSales', async (results, request) => {
+            await flashsales_AfterCreate(results, request);
         });
 
         return super.init();

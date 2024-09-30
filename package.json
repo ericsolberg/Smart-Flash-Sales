@@ -50,14 +50,20 @@
         "[production]": {
           "kind": "xsuaa"
         }
+      },
+      "spa_api": {
+        "kind": "rest",
+        "credentials": {
+          "destination": "spa_process_destination"
+        }
+      },
+      "features": {
+        "fetch_csrf": true
       }
     },
-    "features": {
-      "fetch_csrf": true
-    }
-  },
-  "lcap": true,
-  "sapux": [
-    "app/flashsalemanagement"
-  ]
+    "lcap": true,
+    "sapux": [
+      "app/flashsalemanagement"
+    ]
+  }
 }

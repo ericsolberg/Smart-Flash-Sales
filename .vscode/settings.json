@@ -13,5 +13,5 @@
         "*.properties": "default",
         "*.fragment": "default"
     },
-    "wattFeature.hanaTools.useLocalConnection": true
+    "wattFeature.hanaTools.useLocalConnection": false
 }
