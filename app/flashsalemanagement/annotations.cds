@@ -41,6 +41,37 @@ annotate service.FlashSales with @(
         status_code,
         startDate,
     ],
+    UI.FieldGroup #Main : {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+            {
+                $Type : 'UI.DataField',
+                Value : title,
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : description,
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : status_code,
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : startDate,
+            },
+            {
+                $Type : 'UI.DataFieldForAction',
+                Action : 'flashsalesSrv.startSale',
+                Label : 'startSale',
+            },
+            {
+                $Type : 'UI.DataFieldForAction',
+                Action : 'flashsalesSrv.endSale',
+                Label : 'endSale',
+            },
+        ],
+    },
 );
 
 annotate service.FlashSales with {
@@ -49,4 +80,34 @@ annotate service.FlashSales with {
 annotate service.FlashSales with {
     startDate @Common.Label : 'Start Date'
 };
+
+annotate service.SaleProducts with @(
+    UI.LineItem : [
+        {
+            $Type : 'UI.DataField',
+            Label : 'Product',
+            Value : product_ID,
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : product.productName,
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : product.regularPrice,
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : salePrice,
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : product.shelfLocation,
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : product.eslDevice,
+        },
+    ]
+);
 
