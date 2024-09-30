@@ -13,22 +13,24 @@ annotate service.FlashSales with @(
             Criticality: status.criticality,
         },
         {
-            $Type : 'UI.DataFieldForAction',
-            Action : 'flashsalesSrv.startSale',
-            Label : 'Start Sale',
-        },
-        {
-            $Type : 'UI.DataFieldForAction',
-            Action : 'flashsalesSrv.endSale',
-            Label : 'End Sale',
-        },
-        {
             $Type : 'UI.DataField',
             Value : startDate,
         },
         {
             $Type : 'UI.DataField',
             Value : description,
+        },
+        {
+            $Type : 'UI.DataFieldForAction',
+            Action : 'flashsalesSrv.startSale',
+            Label : 'Start Sale',
+            Inline : true,
+        },
+        {
+            $Type : 'UI.DataFieldForAction',
+            Action : 'flashsalesSrv.endSale',
+            Label : 'End Sale',
+            Inline : true,
         },
     ],
     UI.PresentationVariant: {
