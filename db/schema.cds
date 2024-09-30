@@ -13,8 +13,7 @@ entity FlashSalesStatusCodeList : CodeList
 entity FlashSales
 {
     key ID : UUID;
-    startDateAndTime : DateTime;
-    durationHours : Double;
+    startDate : Date;
     title : String(50);
     description : String;
     status : Association to one FlashSalesStatusCodeList;
