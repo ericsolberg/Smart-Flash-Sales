@@ -5,8 +5,7 @@ annotate flashsalesSrv.FlashSales with @UI.HeaderInfo: {
   TypeNamePlural: 'Flash Sales'
 };
 annotate flashsalesSrv.FlashSales with {
-  startDateAndTime @Common.Label: 'Start Date And Time';
-  durationHours @Common.Label: 'Duration Hours';
+  startDate @Common.Label: 'Start Date';
   title @Common.Label: 'Title';
   description @Common.Label: 'Description';
   status @Common.Label: 'Status';
@@ -20,19 +19,16 @@ annotate flashsalesSrv.FlashSales with {
 };
 annotate flashsalesSrv.FlashSales with @UI.SelectionFields : [
  status_code,
- startDateAndTime
+ startDate
 ];
 annotate flashsalesSrv.FlashSales with @UI.LineItem : [
-    { $Type: 'UI.DataField', Value: startDateAndTime },
-    { $Type: 'UI.DataField', Value: durationHours },
+    { $Type: 'UI.DataField', Value: startDate },
     { $Type: 'UI.DataField', Value: title },
     { $Type: 'UI.DataField', Value: status_code, Criticality: status.criticality },
-    { $Type: 'UI.DataField', Value: saleProducts_ID }
 ];
 annotate flashsalesSrv.FlashSales with @UI.FieldGroup #Main: {
   $Type: 'UI.FieldGroupType', Data: [
-    { $Type: 'UI.DataField', Value: startDateAndTime },
-    { $Type: 'UI.DataField', Value: durationHours },
+    { $Type: 'UI.DataField', Value: startDate },
     { $Type: 'UI.DataField', Value: title },
     { $Type: 'UI.DataField', Value: description },
     { $Type: 'UI.DataField', Value: status_code }
@@ -84,11 +80,7 @@ annotate flashsalesSrv.SaleProducts with {
       },
       {
         $Type            : 'Common.ValueListParameterDisplayOnly',
-        ValueListProperty: 'startDateAndTime'
-      },
-      {
-        $Type            : 'Common.ValueListParameterDisplayOnly',
-        ValueListProperty: 'durationHours'
+        ValueListProperty: 'startDate'
       },
       {
         $Type            : 'Common.ValueListParameterDisplayOnly',

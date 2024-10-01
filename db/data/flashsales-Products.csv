@@ -1,0 +1,80 @@
+ID;productID;productName;regularPrice;shelfLocation;eslDevice
+de8bdbe3-3d0f-4833-b846-b81bc3550e1e;P001;Apple;1.20;Aisle 1 Shelf A1;7A.30.1B
+339e1276-4a74-4e3b-9d89-1a49448b2d19;P002;Banana;0.50;Aisle 1 Shelf A2;7B.31.1C
+0a6b6d2f-80fc-4346-ac48-d6aac525864a;P003;Orange;1.00;Aisle 1 Shelf A3;7C.32.1D
+590a0869-b74a-4328-a6c2-fbd6d3c3c38d;P004;Milk;2.50;Aisle 2 Shelf B1;7D.33.1E
+e92394d7-34a2-4cc0-a91c-c328a0601a19;P005;Bread;2.00;Aisle 2 Shelf B2;7E.34.1F
+e5552a91-9201-40cd-8981-dbd0ac9d9ef3;P006;Eggs;3.00;Aisle 2 Shelf B3;7F.35.1G
+f2b441fe-331d-4d8e-a65b-7c09c945ea3d;P007;Cheese;4.00;Aisle 3 Shelf C1;80.36.1H
+8cefe423-ae3a-4c17-8dee-504fcc0a1ed7;P008;Butter;3.50;Aisle 3 Shelf C2;81.37.1I
+5a94fde8-a8ba-4234-8304-95c3f2c6611f;P009;Yogurt;1.50;Aisle 3 Shelf C3;82.38.1J
+72c60dee-9c8d-446d-b5e1-79b2cadcc4c7;P010;Chicken Breast;5.00;Aisle 4 Shelf D1;83.39.1K
+ae266358-4094-422f-97b9-75f9c50c645b;P011;Ground Beef;6.00;Aisle 4 Shelf D2;84.40.1L
+06e875ee-50b7-4ab4-9395-55b2dc16bccb;P012;Pork Chops;5.50;Aisle 4 Shelf D3;85.41.1M
+39beea08-12ce-4cc7-bc66-2d372552bba1;P013;Salmon;8.00;Aisle 5 Shelf E1;86.42.1N
+45837e51-f4ff-4062-940b-df2a4a7e99b5;P014;Shrimp;10.00;Aisle 5 Shelf E2;87.43.1O
+c84df09b-7a66-4b35-8387-1e2a681e46ed;P015;Rice;1.00;Aisle 6 Shelf F1;88.44.1P
+f36932f1-c7ab-48de-bfa1-ac72db93a252;P016;Pasta;1.20;Aisle 6 Shelf F2;89.45.1Q
+142fb08b-4262-4edc-a074-b4a2a367d783;P017;Tomato Sauce;1.50;Aisle 6 Shelf F3;8A.46.1R
+b02cabea-8064-4995-9421-f53405a767ed;P018;Olive Oil;7.00;Aisle 7 Shelf G1;8B.47.1S
+75f92df2-0c2f-44e8-9dd5-199f3ba7fdc5;P019;Salt;0.80;Aisle 7 Shelf G2;8C.48.1T
+ca1a6268-03fa-4d28-9f06-6f10291ec203;P020;Pepper;1.00;Aisle 7 Shelf G3;8D.49.1U
+f98e1f70-62e9-403b-85cb-6028eb913a65;P021;Sugar;1.50;Aisle 8 Shelf H1;8E.50.1V
+95f779b3-2567-4e34-ab2a-7735c43cc697;P022;Flour;1.20;Aisle 8 Shelf H2;8F.51.1W
+0beb4051-0939-450d-8ace-9c473ed01836;P023;Baking Powder;0.90;Aisle 8 Shelf H3;90.52.1X
+0bfaebc5-1f72-4589-bbf0-0e848f0f251b;P024;Cereal;3.00;Aisle 9 Shelf I1;91.53.1Y
+56b58be6-effe-47bb-b3dc-b4acbd924bc1;P025;Oatmeal;2.50;Aisle 9 Shelf I2;92.54.1Z
+6749828b-ca33-40a5-8259-c6ea0bd16982;P026;Coffee;5.00;Aisle 9 Shelf I3;93.55.1A
+b4ea7a04-d95d-4bad-a231-ffeb59b170be;P027;Tea;4.00;Aisle 10 Shelf J1;94.56.1B
+acd125e8-5870-4e1a-b590-dd5aa692637e;P028;Juice;3.00;Aisle 10 Shelf J2;95.57.1C
+e0de425d-74c1-4cf6-b925-c35d461365b7;P029;Soda;1.50;Aisle 10 Shelf J3;96.58.1D
+d1f75e70-74d2-48ba-ad99-31a3cc5b3fe3;P030;Water;1.00;Aisle 11 Shelf K1;97.59.1E
+8171fcab-9173-43b0-a6bb-440389fc9401;P031;Beer;2.00;Aisle 11 Shelf K2;98.60.1F
+997cefd7-6917-4246-a49a-5f8e50fac9dd;P032;Wine;10.00;Aisle 11 Shelf K3;99.61.1G
+1d187a33-7985-462a-9355-c2a61c5a7f6f;P033;Whiskey;20.00;Aisle 12 Shelf L1;9A.62.1H
+f95cba13-7573-4192-a50a-db551ea12f63;P034;Vodka;15.00;Aisle 12 Shelf L2;9B.63.1I
+c7ae3839-e0d2-48f7-a15f-32c6bebe5169;P035;Gin;18.00;Aisle 12 Shelf L3;9C.64.1J
+009377ea-94cc-4b27-991d-3a2d8bf6024c;P036;Rum;17.00;Aisle 13 Shelf M1;9D.65.1K
+48dedb29-a571-4e92-8dce-8c4b588df5a6;P037;Chips;2.50;Aisle 13 Shelf M2;9E.66.1L
+97ec3770-9ecd-4250-83b9-3c930bd74727;P038;Cookies;3.00;Aisle 13 Shelf M3;9F.67.1M
+a8e624cd-c933-4aab-9d21-4cdb779d4381;P039;Chocolate;2.00;Aisle 14 Shelf N1;A0.68.1N
+7408b0e0-298f-4445-b540-7a60d5bfacf9;P040;Candy;1.50;Aisle 14 Shelf N2;A1.69.1O
+3ace87c6-54e4-425e-ad3f-c28b6ead9a5f;P041;Ice Cream;4.00;Aisle 14 Shelf N3;A2.70.1P
+7d0463a5-a3e5-43c8-bf22-2a047e98e7c1;P042;Frozen Pizza;5.00;Aisle 15 Shelf O1;A3.71.1Q
+a14658f9-8293-46e2-8b78-ac432ddec46c;P043;Frozen Vegetables;2.50;Aisle 15 Shelf O2;A4.72.1R
+2d181244-a6a5-48de-8dcd-00afa53de586;P044;Frozen Fruit;3.00;Aisle 15 Shelf O3;A5.73.1S
+af351bd2-3975-4dde-853a-931add76670c;P045;Frozen Meals;4.00;Aisle 16 Shelf P1;A6.74.1T
+520b45be-a0b7-4967-a1f4-b34ed39a56c2;P046;Paper Towels;1.50;Aisle 16 Shelf P2;A7.75.1U
+38ea730d-4b66-41d2-867f-b13ebde8cf02;P047;Toilet Paper;2.00;Aisle 16 Shelf P3;A8.76.1V
+034db1a9-1837-4b0a-99d7-d369354fde09;P048;Laundry Detergent;5.00;Aisle 17 Shelf Q1;A9.77.1W
+1737b6ae-08d4-4360-ba7a-476e44452d31;P049;Dish Soap;2.50;Aisle 17 Shelf Q2;AA.78.1X
+20b12756-bd51-4c32-9827-b67ac71d1ec0;P050;Sponges;1.00;Aisle 17 Shelf Q3;AB.79.1Y
+79cd6204-e63d-4595-bf82-97ab61cde7d2;P051;Trash Bags;3.00;Aisle 18 Shelf R1;AC.80.1Z
+e60fe000-2216-408a-9e95-227cfee20611;P052;Aluminum Foil;2.00;Aisle 18 Shelf R2;AD.81.1A
+7a89f633-802a-4a57-867c-8c672794e29e;P053;Plastic Wrap;2.00;Aisle 18 Shelf R3;AE.82.1B
+4dabcf0b-513c-470f-b3cf-cea7b55ca2ac;P054;Sandwich Bags;1.50;Aisle 19 Shelf S1;AF.83.1C
+347e3f01-9f12-4f47-a2f0-58bac7d18d9f;P055;Freezer Bags;2.00;Aisle 19 Shelf S2;B0.84.1D
+b2ee1295-6c4f-49ea-a02e-eb0d28bfce65;P056;Napkins;1.50;Aisle 19 Shelf S3;B1.85.1E
+ec4aa216-f68b-491b-8fe9-259b475e7b2d;P057;Paper Plates;2.00;Aisle 20 Shelf T1;B2.86.1F
+31e798e7-129e-4d3c-9fb6-ff60471e50e2;P058;Plastic Cups;1.50;Aisle 20 Shelf T2;B3.87.1G
+d9a9d88e-b25d-47de-9218-9c28758e1e3a;P059;Plastic Utensils;1.00;Aisle 20 Shelf T3;B4.88.1H
+08b8b6c7-ea96-43b2-81a9-34121d5be6f5;P060;Cleaning Spray;3.00;Aisle 21 Shelf U1;B5.89.1I
+f00b3e77-b1ea-4be3-93d5-bb7ce6ec2bdb;P061;Bleach;2.50;Aisle 21 Shelf U2;B6.90.1J
+c8489b3b-15a0-41d7-867c-10c516a84847;P062;Disinfectant Wipes;3.50;Aisle 21 Shelf U3;B7.91.1K
+a9b8c2b3-89ee-4458-9d84-3dfb13216157;P063;Hand Soap;1.50;Aisle 22 Shelf V1;B8.92.1L
+f962c621-522d-4a17-9783-e50bd84851a2;P064;Shampoo;4.00;Aisle 22 Shelf V2;B9.93.1M
+78012d15-1571-42ed-a9dd-c111672e6286;P065;Conditioner;4.00;Aisle 22 Shelf V3;BA.94.1N
+aecaa45b-0b69-435e-9fab-00f970e7bc7d;P066;Toothpaste;3.00;Aisle 23 Shelf W1;BB.95.1O
+2b10a6b4-b868-4922-bf68-cd478b601a9d;P067;Toothbrush;2.00;Aisle 23 Shelf W2;BC.96.1P
+e9664fa3-9e62-4bd3-aca3-1a4c55e7e714;P068;Mouthwash;4.00;Aisle 23 Shelf W3;BD.97.1Q
+48f3474b-14a4-40e9-a0d4-0b50a3a888f2;P069;Deodorant;3.00;Aisle 24 Shelf X1;BE.98.1R
+e7323010-991c-4f6d-bdf7-e94b198733d9;P070;Lotion;5.00;Aisle 24 Shelf X2;BF.99.1S
+46336c11-766a-4a0d-9b8a-4e93a8a6cb45;P071;Sunscreen;6.00;Aisle 24 Shelf X3;C0.100.1T
+a89a570f-523c-403f-a389-12bd11680233;P072;Band-Aids;2.50;Aisle 25 Shelf Y1;C1.101.1U
+68fd9e49-686d-47c6-8054-c9ddbe2f9f9f;P073;Pain Reliever;4.00;Aisle 25 Shelf Y2;C2.102.1V
+fd9b92fb-e009-4c0c-bfd2-869ab8013974;P074;Cough Syrup;5.00;Aisle 25 Shelf Y3;C3.103.1W
+a238b7e2-6b11-4d34-a224-08fa23b59ab4;P075;Vitamins;10.00;Aisle 26 Shelf Z1;C4.104.1X
+4b1622a2-ffce-41e8-bb3a-baf1be47977e;P076;First Aid Kit;15.00;Aisle 26 Shelf Z2;C5.105.1Y
+d2ddc67c-6bb5-4d5d-8ce2-98a771d4ad79;P077;Thermometer;8.00;Aisle 26 Shelf Z3;C6.106.1Z
+a4a68a45-8777-4c0b-b79e-df131b7ecc46;P078;Baby Wipes;3.00;Aisle 27 Shelf AA1;C7.107.1A
+a1da1462-e15f-4887-9fb0-2940d4066a82;P079;Diapers;10.00;Aisle 27 Shelf AA2;C8.108.1B

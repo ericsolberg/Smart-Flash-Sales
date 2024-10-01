@@ -34,7 +34,7 @@ async function triggerWorkflow(flashSaleID) {
 		"context": {
 			"flashSaleId": flashSaleID,
 			"isActiveEntity": true,
-			"appUrl": "https://www.test.com"
+			"appUrl": `https://build-demos.launchpad.cfapps.eu10.hana.ondemand.com/lcapsmartflashsales.smartflashsalesLaunchpad-1.0.0/launchpadPage.html#flashsalemanagement-open&/FlashSales(ID=${flashSaleID},IsActiveEntity=true)`
 		}
 	};
 	const SPA_API = await cds.connect.to('spa_api');

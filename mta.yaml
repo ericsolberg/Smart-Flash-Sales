@@ -17,8 +17,7 @@ build-parameters:
       commands:
         - npm install --production
         - >-
-          bash -c "cds -v | grep 'cds-dk' || npm i --production --no-save
-          @sap/cds-dk @sap/mdk-tools"
+          bash -c "cds -v | grep 'cds-dk' || npm i --production --no-save @sap/cds-dk @sap/mdk-tools"
         - bash -c "export PATH=$PATH:$(pwd)/node_modules/.bin"
         - cds build --production
   after-all:
@@ -35,12 +34,12 @@ modules:
         - rm -rf dist-zip dist
         - npm install
         - >-
-          npx -p @ui5/cli@^3.0.0 ui5 build --dest dist
-          --include-task=generateCachebusterInfo
+          npx -p @ui5/cli@^3.0.0 ui5 build --dest dist --include-task=generateCachebusterInfo
         - mkdir dist-zip
         - bash -c "cd dist && npx bestzip ../dist-zip/flashsalemanagement.zip *"
       _artifactName: flashsalemanagement.zip
-      supported-platforms: []
+      supported-platforms:
+        []
       build-result: dist-zip
   - name: smartflashsales-db-deployer
     type: hdb
@@ -55,6 +54,7 @@ modules:
     requires:
       - name: smartflashsales-service-uaa
       - name: smartflashsales-service-db
+      - name: smartflashsales-db
   - name: smartflashsales-srv
     type: nodejs
     path: gen/srv
@@ -76,6 +76,8 @@ modules:
       - name: smartflashsales-service-metadata
       - name: smartflashsales-service-connectivity
       - name: smartflashsales-service-logs
+      - name: smartflashsales-messaging
+      - name: smartflashsales-db
   - name: smartflashsales-aux-destinations
     type: com.sap.application.content
     parameters:
@@ -134,12 +136,12 @@ modules:
       commands:
         - npm install
         - >-
-          npx -p @ui5/cli@^3.0.0 ui5 build --dest dist
-          --include-task=generateCachebusterInfo
+          npx -p @ui5/cli@^3.0.0 ui5 build --dest dist --include-task=generateCachebusterInfo
         - bash -c "cd dist && npx bestzip ../../../build/dist/launchpad.zip *"
         - rm -rf dist
       _artifactName: launchpad.zip
-      supported-platforms: []
+      supported-platforms:
+        []
       build-result: ../../build/dist
   - name: smartflashsales-aux-ui-deployer
     type: com.sap.application.content
@@ -172,7 +174,9 @@ resources:
           redirect-uris:
             - https://*.${default-domain}/login/*
         xsappname: smartflashsales-${space}
-        role-collections: []
+        role-collections:
+          []
+        tenant-mode: dedicated
   - type: org.cloudfoundry.managed-service
     name: smartflashsales-service-db
     parameters:
@@ -214,3 +218,14 @@ resources:
       service: html5-apps-repo
       service-plan: app-host
       service-name: smartflashsales-html5-apps-repo-host
+  - name: smartflashsales-messaging
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: enterprise-messaging
+      service-plan: default
+      path: ./event-mesh.json
+  - name: smartflashsales-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared

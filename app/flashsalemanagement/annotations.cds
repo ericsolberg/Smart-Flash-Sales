@@ -63,12 +63,12 @@ annotate service.FlashSales with @(
             {
                 $Type : 'UI.DataFieldForAction',
                 Action : 'flashsalesSrv.startSale',
-                Label : 'startSale',
+                Label : 'Start Sale',
             },
             {
                 $Type : 'UI.DataFieldForAction',
                 Action : 'flashsalesSrv.endSale',
-                Label : 'endSale',
+                Label : 'End Sale',
             },
         ],
     },

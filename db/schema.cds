@@ -1,5 +1,7 @@
 namespace flashsales;
 
+using { ProductMasterA2X } from '../srv/external/ProductMasterA2X.cds';
+
 using { sap.common.CodeList } from '@sap/cds/common';
 
 entity FlashSalesStatusCodeList : CodeList
@@ -37,4 +39,16 @@ entity Products
     regularPrice : Decimal;
     shelfLocation : String;
     eslDevice : String;
+}
+
+entity ESLSim
+{
+    key ID : UUID;
+    productName : String(50);
+    regularPrice : Double;
+    shelfLocation : String(100);
+    eslDevice : String(100);
+    title : String(50);
+    salePrice : Double;
+    isSale : Boolean;
 }

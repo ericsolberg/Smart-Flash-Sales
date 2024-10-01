@@ -59,6 +59,24 @@
       },
       "features": {
         "fetch_csrf": true
+      },
+      "messaging": {
+        "[development]": {
+          "kind": "file-based-messaging"
+        },
+        "[production]": {
+          "kind": "enterprise-messaging"
+        }
+      },
+      "ProductMasterA2X": {
+        "kind": "odata-v2",
+        "model": "srv/external/ProductMasterA2X",
+        "[production]": {
+          "credentials": {
+            "destination": "apihub_sandbox",
+            "path": "s4hanacloud/sap/opu/odata/sap/API_PRODUCT_SRV"
+          }
+        }
       }
     },
     "lcap": true,
