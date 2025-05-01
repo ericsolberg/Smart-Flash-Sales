@@ -27,7 +27,7 @@
                     return Controller.extend("PreviewController", {
                         onInit: function () {
 
-                            const data = {"Services":[{"ServiceName":"flashsalesSrv","DetailsURL":"./odata/v4/flashsales-srv/","Metadata":"./odata/v4/flashsales-srv/$metadata","Entities":[{"Name":"FlashSales","URL":"./odata/v4/flashsales-srv/FlashSales","FioriURL":"$fiori-preview/flashsalesSrv/FlashSales#preview-app"},{"Name":"Products","URL":"./odata/v4/flashsales-srv/Products","FioriURL":"$fiori-preview/flashsalesSrv/Products#preview-app"}],"EntitiesCount":2}]}
+                            const data = {"Services":[{"ServiceName":"flashsalesSrv","DetailsURL":"./odata/v4/flashsales-srv/","Metadata":"./odata/v4/flashsales-srv/$metadata","Entities":[{"Name":"FlashSales","URL":"./odata/v4/flashsales-srv/FlashSales","FioriURL":"$fiori-preview/flashsalesSrv/FlashSales#preview-app"},{"Name":"Products","URL":"./odata/v4/flashsales-srv/Products","FioriURL":"$fiori-preview/flashsalesSrv/Products#preview-app"},{"Name":"ESLSim","URL":"./odata/v4/flashsales-srv/ESLSim","FioriURL":"$fiori-preview/flashsalesSrv/ESLSim#preview-app"},{"Name":"A_ProductBasicText","URL":"./odata/v4/flashsales-srv/A_ProductBasicText","FioriURL":"$fiori-preview/flashsalesSrv/A_ProductBasicText#preview-app"}],"EntitiesCount":4}]}
                             this.getView().setModel(new JSONModel(data));
                         }
                     });
