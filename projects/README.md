@@ -22,9 +22,9 @@ To setup Smart Flash Sales in a new subaccount:
 8. Import the Build Apps project: S-Mart Flash Sale Manager.mtar
 9. Import the Build Apps project: ESL Device Simulator.mtar
 
-To demo:
+Running the Demo:
 
-1. Open both the S-Mart Flash Sale Manager and ESL Device Simulator projects
+1. Open both the S-Mart Flash Sale Manager and ESL Device Simulator projects, and launch them in preview. I usually open in 2 browser windows, side by side. You can size the simulator down to a phone form factor, and use the rest of the screen for the Flash Sale Manager.
 2. If you want to start with an empty device list, click Reset on the device simulator- will delete existing shelf labels (new ones will appear when a new sale is started).
 3. Create some Flash Sale events, and select some products to add to the sale
 4. Go to the Inbox and approve the events
