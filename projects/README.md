@@ -1,4 +1,4 @@
-Prereq- entitle and provision:
+## Prereq- entitle and provision:
 - Cloud Foundry
 - IAS
 - HANA Database & HDI Container
@@ -8,7 +8,7 @@ Prereq- entitle and provision:
 - Build Work Zone (Advanced)
 - Event Mesh - standard
 
-To setup Smart Flash Sales in a new subaccount:
+## To setup Smart Flash Sales in a new subaccount:
 
 1. Import the destinations api_sandbox.json. You will need to add your credentials (used to connect to an S4 service on the API Hub).
 2. Create a Build Code project from this repo
@@ -22,7 +22,7 @@ To setup Smart Flash Sales in a new subaccount:
 8. Import the Build Apps project: S-Mart Flash Sale Manager.mtar
 9. Import the Build Apps project: ESL Device Simulator.mtar
 
-Running the Demo:
+## Running the Demo:
 
 1. Open both the S-Mart Flash Sale Manager and ESL Device Simulator projects, and launch them in preview. I usually open in 2 browser windows, side by side. You can size the simulator down to a phone form factor, and use the rest of the screen for the Flash Sale Manager.
 2. If you want to start with an empty device list, click Reset on the device simulator- will delete existing shelf labels (new ones will appear when a new sale is started).
