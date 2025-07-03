@@ -2,33 +2,21 @@ using {ProductMasterA2X} from './external/ProductMasterA2X.cds';
 using {flashsales} from '../db/schema.cds';
 
 service flashsalesSrv {
-    @odata.draft.enabled
+    
     entity FlashSales         as projection on flashsales.FlashSales
         actions {
-            @(
-                //Update the UI after action
-                Common.SideEffects     : {TargetProperties: ['in/status_code']},
-                Core.OperationAvailable: {$edmJson: {$Eq: [
-                    {$Path: 'in/status_code'},
-                    'Ready'
-                ]}}
-            ) action startSale();
+            @Common.SideEffects: {TargetProperties: ['in/status_code']}
+            action startSale();
 
-            @(
-                //Update the UI after action
-                Common.SideEffects     : {TargetProperties: ['in/status_code']},
-                Core.OperationAvailable: {$edmJson: {$Eq: [
-                    {$Path: 'in/status_code'},
-                    'Running'
-                ]}}
-            )
-            action   endSale();
+            @Common.SideEffects: {TargetProperties: ['in/status_code']}
+            action endSale();
 
-            action   approveSale();
-            action   rejectSale();
+            action approveSale();
+            action rejectSale();
         };
 
     entity Products           as projection on flashsales.Products;
+    entity SaleProducts       as projection on flashsales.SaleProducts;
 
     event eslUpdate {
         productName   : String;
@@ -41,8 +29,8 @@ service flashsalesSrv {
     }
 
     entity ESLSim             as projection on flashsales.ESLSim;
-    
     action ResetDevices();
-
+    action revenueVsCostByWeek();
+    action unitsSoldByCategory();
     entity A_ProductBasicText as projection on ProductMasterA2X.A_ProductBasicText;
 }

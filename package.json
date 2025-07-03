@@ -54,7 +54,7 @@
       "spa_api": {
         "kind": "rest",
         "credentials": {
-          "destination": "spa_process_destination"
+          "destination": "sap_process_automation_service"
         }
       },
       "features": {

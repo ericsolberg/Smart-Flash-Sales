@@ -15,11 +15,13 @@ entity FlashSalesStatusCodeList : CodeList
 entity FlashSales
 {
     key ID : UUID;
-    startDate : Date;
     title : String(50);
     description : String;
     status : Association to one FlashSalesStatusCodeList;
     saleProducts : Composition of many SaleProducts on saleProducts.flashSales = $self;
+    startDateTime : DateTime;
+    endDateTime : DateTime;
+    autoRun : Boolean;
 }
 
 entity SaleProducts
@@ -27,6 +29,7 @@ entity SaleProducts
     key ID : UUID;
     salePrice : Decimal
         @mandatory;
+    discountPercent : Decimal;
     product : Association to one Products;
     flashSales : Association to one FlashSales;
 }

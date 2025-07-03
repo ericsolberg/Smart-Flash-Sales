@@ -14,7 +14,15 @@ annotate service.FlashSales with @(
         },
         {
             $Type : 'UI.DataField',
-            Value : startDate,
+            Value : startDateTime,
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : endDateTime,
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : autoRun,
         },
         {
             $Type : 'UI.DataField',
@@ -39,7 +47,7 @@ annotate service.FlashSales with @(
     },
     UI.SelectionFields : [
         status_code,
-        startDate,
+        startDateTime,
     ],
     UI.FieldGroup #Main : {
         $Type : 'UI.FieldGroupType',
@@ -58,7 +66,15 @@ annotate service.FlashSales with @(
             },
             {
                 $Type : 'UI.DataField',
-                Value : startDate,
+                Value : startDateTime,
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : endDateTime,
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : autoRun,
             },
             {
                 $Type : 'UI.DataFieldForAction',
@@ -78,7 +94,13 @@ annotate service.FlashSales with {
     status @Common.FieldControl: #ReadOnly
 };
 annotate service.FlashSales with {
-    startDate @Common.Label : 'Start Date'
+    startDateTime @Common.Label : 'Start Date-Time'
+};
+annotate service.FlashSales with {
+    endDateTime @Common.Label : 'End Date-Time'
+};
+annotate service.FlashSales with {
+    autoRun @Common.Label : 'Auto-Run'
 };
 
 annotate service.SaleProducts with @(
